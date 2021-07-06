@@ -1,0 +1,33 @@
+{
+    "name": "landofcoder/module-recaptcha",
+    "description": "Magento 2 Recaptcha for Contact Page, Customer Create, and Forgot Password",
+    "keywords": [
+      "magento 2",
+      "recaptcha"
+    ],
+    "license": "OSL-3.0",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Landofcoder",
+            "email": "info@landofcoder.com",
+            "role": "Magento 2 Extension Provider",
+            "homepage": "https://landofcoder.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+    },
+    "require-dev": {
+      "phpunit/phpunit": "4.1.0"
+    },
+    "type": "magento2-module",
+    "autoload": {
+        "psr-4": {
+            "Lof\\Recaptcha\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}

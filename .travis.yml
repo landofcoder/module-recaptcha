@@ -1,0 +1,10 @@
+language: php
+sudo: required
+dist: trusty
+php: 7.4
+script:
+ - wget https://github.com/magento/magento2/archive/2.4.2.zip
+ - unzip -qq 2.4.2.zip
+ - cd magento2-2.4.2/
+ - composer require --no-interaction "landofcoder/module-recaptcha":"dev-master"
+ - ./vendor/bin/phpunit -c vendor/landofcoder/module-recaptcha/phpunit.xml.dist
