@@ -66,12 +66,9 @@ class ForgotPasswordPost
             $recaptchaResponse = $subject->getRequest()->getPost('g-recaptcha-response');
 
             if ($recaptchaResponse) {
-                $secretKey = $this->dataHelper->getSecretKey();
-                $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" .
-                    $secretKey . "&response=" . $recaptchaResponse . "&remoteip=" . $_SERVER['REMOTE_ADDR']);
-                $result = json_decode($response, true);
+                $verified = $this->dataHelper->verifyRecaptcha($recaptchaResponse);
 
-                if (isset($result['success']) && $result['success']) {
+                if ($verified) {
                     return $proceed();
                 } else {
                     return $this->recaptchaError();

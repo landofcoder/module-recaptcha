@@ -21,9 +21,15 @@
                        showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Secret Key</label>
                 </field>
+                <field id="is_check_scores" translate="label" type="select" sortOrder="33"
+                       showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled Check Scores</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="scores" translate="label" type="text" sortOrder="35"
                        showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Scores</label>
+                    <depends><field id="is_check_scores">1</field></depends>
                 </field>
             </group>
         </section>

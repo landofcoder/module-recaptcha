@@ -71,7 +71,18 @@ class Data extends AbstractHelper
     }
 
     /**
-     * Get the secret key
+     * Get the scores
+     *
+     * @param null $storeId
+     * @return string
+     */
+    public function getIsCheckScores($storeId = null)
+    {
+        return $this->scopeConfig->getValue('lof_recaptcha/settings/is_check_scores', ScopeInterface::SCOPE_STORE, $storeId);
+    }
+
+    /**
+     * Get the scores
      *
      * @param null $storeId
      * @return string
@@ -79,5 +90,36 @@ class Data extends AbstractHelper
     public function getScores($storeId = null)
     {
         return $this->scopeConfig->getValue('lof_recaptcha/settings/scores', ScopeInterface::SCOPE_STORE, $storeId);
+    }
+
+    /**
+     * Verify Captcha
+     * @param string $recaptchaResponse
+     * @param string|null $storeId
+     * @param string|null $remoteIp
+     * @return string
+     */
+    public function verifyRecaptcha($recaptchaResponse = "", $storeId = null, $remoteIp=null){
+        $secretKey = $this->getSecretKey($storeId);
+        $remoteIp = $remoteIp?$remoteIp:$_SERVER['REMOTE_ADDR'];
+        $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" .
+            $secretKey . "&response=" . $recaptchaResponse . "&remoteip=" . $remoteIp);
+        $result = json_decode($response, true);
+
+        $verified = false;
+
+        if (isset($result['success']) && $result['success']) {
+           $isCheckScores = $this->getIsCheckScores($storeId);
+           if($isCheckScores && isset($result["score"])){
+                $scores = $this->getScores($storeId);
+                if((float)$result['score'] >= (float)$scores){
+                    $verified = true;
+                }
+           }else {
+               $verified = true;
+           }
+        }
+
+        return $verified;
     }
 }

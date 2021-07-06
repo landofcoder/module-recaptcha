@@ -7,6 +7,7 @@
                 <enabled>0</enabled>
                 <site_key>sitekey</site_key>
                 <secret_key>secretkey</secret_key>
+                <is_check_scores>0</is_check_scores>
                 <scores>0.5</scores>
             </settings>
         </lof_recaptcha>

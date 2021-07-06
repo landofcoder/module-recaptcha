@@ -78,12 +78,8 @@ class Post
             $hasError = false;
 
             if ($recaptchaResponse) {
-                $secretKey = $this->dataHelper->getSecretKey();
-                $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" .
-                    $secretKey . "&response=" . $recaptchaResponse . "&remoteip=" . $_SERVER['REMOTE_ADDR']);
-                $result = json_decode($response, true);
-
-                if (isset($result['success']) && $result['success']) {
+                $verified = $this->dataHelper->verifyRecaptcha($recaptchaResponse);
+                if ($verified) {
                     return $proceed();
                 } else {
                     $hasError = true;
